@@ -1,0 +1,19 @@
+cabal-version: 2.4
+name: transformer
+version: 0.1.0.0
+license: BSD-3-Clause
+license-file: LICENSE
+maintainer: paolod29@gmail.com
+author: pdell
+extra-source-files:
+    CHANGELOG.md
+
+executable t3
+    main-is: Main.hs
+    default-language: Haskell2010
+    build-depends:
+        base ^>=4.12.0.0,
+        aeson -any,
+        Glob -any,
+        unordered-containers -any,
+        text -any
