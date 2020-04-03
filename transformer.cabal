@@ -8,7 +8,7 @@ author: pdell
 extra-source-files:
     CHANGELOG.md
 
-executable t3
+executable transformer
     main-is: Main.hs
     default-language: Haskell2010
     build-depends:

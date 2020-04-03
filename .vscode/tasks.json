@@ -16,7 +16,16 @@
       },
       "label": "cabal new-run",
       "type": "shell",
-      "command": "cabal new-run"
+      "command": "cabal new-run",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "isBackground": true
     }
   ]
 }

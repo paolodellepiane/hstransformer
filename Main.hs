@@ -2,27 +2,35 @@ module Main where
 
 import           Data.Aeson
 import           Data.Aeson.Types
-import qualified Data.List                     as L
+import           Data.List
+import           Data.Maybe
+import           Data.Foldable
 import           System.FilePath.Glob
+import qualified Data.HashMap.Strict           as H
+
+main = do
+    paths <- glob "*.json"
+    outs  <- mapM readAndTransform paths
+    putStrLn $ intercalate "\n" outs
 
 
-main =
-    glob "*.json" >>= mapM transform >>= \s -> putStrLn (L.intercalate "\n" s)
+readAndTransform f = do
+    d <- decodeFileStrict f
+    return $ transform (expectDecoded f d) ""
 
-transform f = do
-    d <- decodeFileStrict f :: IO (Maybe Value)
-    return
-        (case d of
-            Just a -> transform2 a ""
-            _      -> "can't decode " ++ (show f)
-        )
-
-transform2 v prefix = case v of
-    Object o -> foldl (transform3 $ prefix ++ if prefix == "" then "" else "__") "" o
+transform v prefix = case v of
+    Object o -> transformObj o (prefix ++ joiner)
     Array  a -> prefix ++ " = " ++ show a
     String s -> prefix ++ " = " ++ show s
     Number n -> prefix ++ " = " ++ show n
     Bool   b -> prefix ++ " = " ++ show b
+    where joiner = if prefix == "" then "" else "__"
 
-transform3 :: String -> String -> Value -> String
-transform3 prefix acc v = acc ++ (transform2 v ("\n" ++ prefix ++ ("mah")))
+transformObj :: Object -> String -> String
+transformObj o prefix = foldl
+    (\a -> \(k, v) -> a ++ (transform v (prefix ++ (show k))) ++ "\n")
+    ""
+    (H.toList o)
+
+expect err = fromMaybe (error err)
+expectDecoded file = expect $ "can't decode " ++ (show file)
