@@ -16,4 +16,5 @@ executable transformer
         aeson -any,
         Glob -any,
         unordered-containers -any,
-        text -any
+        text -any,
+        vector -any
