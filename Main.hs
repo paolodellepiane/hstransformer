@@ -1,5 +1,3 @@
-{-# LANGUAGE AllowAmbiguousTypes #-}
-
 module Main where
 
 import           Data.Aeson
@@ -21,17 +19,8 @@ readAndTransform f = do
     return $ transform (expectDecoded f d) ""
 
 transform v prefix = case v of
-    Object o ->
-        foldr
-                (\(k, v) a ->
-                    a
-                        ++ (transform v $ (++) prefix $ stripQuotes . show $ k)
-                        ++ "\n"
-                )
-                ""
-            $ H.toList o
-    Array a ->
-        ifoldr (\k v a -> a ++ transform v (prefix ++ show k) ++ "\n") "" a
+    Object o -> foldr (\(k, v) a -> a ++ (transform v $ (++) prefix $ stripQuotes . show $ k) ++ "\n") "" $ H.toList o
+    Array  a -> ifoldr (\k v a -> a ++ transform v (prefix ++ show k) ++ "\n") "" a
     String s -> display prefix s
     Number n -> display prefix n
     Bool   b -> display prefix b
