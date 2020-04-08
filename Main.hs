@@ -1,6 +1,6 @@
+-- #region declarations
 module Main where
 
--- #region_c import
 import           Data.Aeson
 import           Data.Aeson.Types
 import           Data.List                      ( intercalate )
@@ -9,6 +9,13 @@ import           Data.Foldable
 import           Data.Vector                    ( ifoldr )
 import           System.FilePath.Glob
 import qualified Data.HashMap.Strict           as H
+-- #endregion
+-- #region utils
+expect err = fromMaybe (error err)
+expectDecoded file = expect $ "can't decode " ++ (show file)
+strip what = filter ((/=) what)
+stripQuotes = strip '\"'
+(|>) a b = b a
 -- #endregion
 
 main = do
@@ -29,11 +36,3 @@ transform v prefix = case v of
   where
     varName = prefix ++ if prefix == "" then "" else "__"
     display prefix s = prefix ++ " = " ++ show s
-
--- #region_c utils
-expect err = fromMaybe (error err)
-expectDecoded file = expect $ "can't decode " ++ (show file)
-strip what = filter ((/=) what)
-stripQuotes = strip '\"'
-(|>) a b = b a
--- #endregion
