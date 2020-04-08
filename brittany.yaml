@@ -2,3 +2,4 @@ conf_version: 1
 conf_layout:
   lconfig_indentAmount: 2
   lconfig_cols: 120
+  lconfig_importColumn: 40

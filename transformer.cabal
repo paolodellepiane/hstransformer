@@ -16,3 +16,5 @@ executable transformer
     text -any,
     vector -any
   default-language:    Haskell2010
+  extensions:
+    OverloadedStrings
