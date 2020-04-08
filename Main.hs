@@ -1,4 +1,4 @@
--- #region declarations
+-- #region imports
 module Main where
 
 import           Data.Aeson
