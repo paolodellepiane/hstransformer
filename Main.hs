@@ -1,11 +1,14 @@
+-- #region imports
 module Main where
 
-import MyPrelude
+import           MyPrelude
 import qualified Data.Text                     as Text
 import qualified Data.HashMap.Strict           as Hash
+-- #endregion
 
 main = do
-    paths <- glob "*.json"
+    arg <- cmdArgs myargs
+    paths <- glob (pattern arg)
     outs  <- mapM readAndTransform paths
     putStrLn $ intercalate "\n" outs
 
@@ -21,3 +24,7 @@ transform v prefix = case v of
     name = prefix ++ if prefix == "" then "" else "__"
     display prefix s = prefix ++ " = " ++ (toValue s)
     transform' k v a = a ++ transform v (name ++ toKey k) ++ "\n"
+
+data Transformer = Transformer {pattern :: String} deriving (Show, Data, Typeable)
+myargs = Transformer { pattern = "**/*.json" &= args &= typ "GLOB PATTERN" }
+    &= summary "Transforms .net core settings json to docker env files. v0.1"

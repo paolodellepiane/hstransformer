@@ -8,6 +8,7 @@ import           Data.Aeson.Types              as MyPrelude
 import           Data.Maybe                    as MyPrelude
 import           Data.Foldable                 as MyPrelude
 import           System.FilePath.Glob          as MyPrelude
+import           System.Console.CmdArgs        as MyPrelude
 import           Data.List                     as List
 import           Data.Vector                   as Vector
 import qualified Data.Text                     as Text
