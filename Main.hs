@@ -1,10 +1,8 @@
--- #region imports
 module Main where
 
 import MyPrelude
 import qualified Data.Text                     as Text
 import qualified Data.HashMap.Strict           as Hash
--- #endregion
 
 main = do
     paths <- glob "*.json"
