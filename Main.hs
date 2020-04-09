@@ -7,8 +7,8 @@ import qualified Data.HashMap.Strict           as Hash
 -- #endregion
 
 main = do
-    arg <- cmdArgs myargs
-    paths <- glob (pattern arg)
+    args <- cmdArgs transformer
+    paths <- glob $ pattern args
     outs  <- mapM readAndTransform paths
     putStrLn $ intercalate "\n" outs
 
@@ -26,5 +26,5 @@ transform v prefix = case v of
     transform' k v a = a ++ transform v (name ++ toKey k) ++ "\n"
 
 data Transformer = Transformer {pattern :: String} deriving (Show, Data, Typeable)
-myargs = Transformer { pattern = "**/*.json" &= args &= typ "GLOB PATTERN" }
+transformer = Transformer { pattern = "**/*.json" &= args &= typ "GLOB PATTERN" }
     &= summary "Transforms .net core settings json to docker env files. v0.1"
